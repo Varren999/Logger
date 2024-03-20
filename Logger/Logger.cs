@@ -6,13 +6,17 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.IO;
 
-namespace TestLogger
+namespace Logger
 {
-    internal class Logger
+    public static class Logger
     {
         public static void System(string text)
         {
             Message("System: " + text);
+        }
+        public static void Info(string text)
+        {
+            Message("Info: " + text);
         }
         public static void Error(string text)
         {

@@ -11,6 +11,9 @@ namespace TestLogger
         static void Main(string[] args)
         {
             Logger.System("Запуск программы");
+            Logger.Info("Программа работает");
+            Logger.Error("Ошибка программы");
+            Logger.System("Завершение программы");
         }
     }
 }
