@@ -1,13 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
-using System.IO;
+﻿//=================================================================================================
+// Logger.dll   версия 0.1
+// создан: 20.03.24
+// последнее изменение: 21.03.24
+//=================================================================================================
+using System;
 
-namespace Logger
+namespace Log
 {
+    /// <summary>
+    /// class Logger простенький логгер для своих нужд.
+    /// </summary>
     public static class Logger
     {
         public static void System(string text)
