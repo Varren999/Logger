@@ -4,6 +4,7 @@
 // последнее изменение: 25.03.24
 //=================================================================================================
 using System;
+using System.IO;
 
 namespace Log
 {
@@ -12,32 +13,38 @@ namespace Log
     /// </summary>
     public static class Logger
     {
-        public static void System(string text)
-        {
-            Message("System: " + text);
-        }
-        public static void Info(string text)
-        {
-            Message("Info: " + text);
-        }
-        public static void Error(string text)
-        {
-            Message("Error: " + text);
-        }
-        public static void Debag(string text)
-        {
-            Message("Debag: " + text);
-        }
+        public static void System(string text) => Message("System", text);
+        public static void Info(string text) => Message("Info", text);
+        public static void Error(string text) => Message("Error", text);
+        public static void Debug(string text) => Message("Debag", text);
 
 
         // Метод для логирования.
-        private static void Message(string text)
+        //private static void Message(string text)
+        //{
+        //    string path = $"{Environment.CurrentDirectory}\\{DateTime.Now.ToShortDateString().Replace('.', '-')}.log";
+        //    using (System.IO.StreamWriter writer = new System.IO.StreamWriter(path, true))
+        //    {
+        //        writer.WriteLine(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + ": " + text);
+        //        writer.Flush();
+        //    }
+        //}
+
+        private static void Message(string level, string text)
         {
-            string path = $"{Environment.CurrentDirectory}\\{DateTime.Now.ToShortDateString().Replace('.', '-')}.log";
-            using (System.IO.StreamWriter writer = new System.IO.StreamWriter(path, true))
+            string fileName = $"{DateTime.Now:dd-MM-yyyy}.log";
+            string path = Path.Combine(Environment.CurrentDirectory, fileName);
+            string message = $"{DateTime.Now:G}: [{level}]: {text}";
+
+            try
             {
-                writer.WriteLine(DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString() + ": " + text);
-                writer.Flush();
+                File.AppendAllText(path, $"{message}\n");
+            }
+            catch (Exception ex)
+            {
+                // Обработка исключения (например, запись ошибки в другой файл лога
+                // или вывод в консоль, если это критично).
+                Console.WriteLine($"Failed to write to log file: {ex.Message}");
             }
         }
     }
