@@ -1,7 +1,7 @@
 ﻿//=================================================================================================
 // Logger.dll   версия 0.1
 // создан: 20.03.24
-// последнее изменение: 25.03.24
+// последнее изменение: 12.04.24
 //=================================================================================================
 using System;
 using System.IO;
@@ -13,6 +13,9 @@ namespace Log
     /// </summary>
     public static class Logger
     {
+        public delegate void LoggerHandler(string message);
+        private static LoggerHandler handler;
+        public static void RegisterHandler(LoggerHandler del) => handler = del;
         public static void System(string text) => Message("System", text);
         public static void Info(string text) => Message("Info", text);
         public static void Error(string text) => Message("Error", text);
@@ -44,7 +47,7 @@ namespace Log
             {
                 // Обработка исключения (например, запись ошибки в другой файл лога
                 // или вывод в консоль, если это критично).
-                Console.WriteLine($"Failed to write to log file: {ex.Message}");
+                handler?.Invoke($"Failed to write to log file: {ex.Message}");
             }
         }
     }
